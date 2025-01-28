@@ -25,8 +25,8 @@ EasyPepe Lite API is a lightweight and experimental API designed to interact wit
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository_url>
-   cd easypepe-lite-api
+   git clone https://github.com/ribbitx/easypepe-lite.git
+   cd easypepe-lite
    ```
 
 2. **Set up a virtual environment (optional but recommended):**
