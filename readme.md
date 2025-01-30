@@ -1,3 +1,6 @@
+Here's the complete updated `README.md` for the EasyPepe Lite API with the correct port of 4555:
+
+```markdown
 # EasyPepe Lite API (Beta)
 
 EasyPepe Lite API is a lightweight and experimental API designed to interact with the PepeCoin Core blockchain. It provides endpoints for retrieving blockchain data, simplifying the development of applications that need to communicate with the PepeCoin network. This version is a demo and beta preview, with the full EasyPepe API coming soon.
@@ -17,6 +20,7 @@ EasyPepe Lite API is a lightweight and experimental API designed to interact wit
 - **Python 3.7+**
 - **Flask**
 - **Requests**
+- **python-dotenv**
 - A running instance of **PepeCoin Core** with RPC enabled
 
 ---
@@ -32,20 +36,20 @@ EasyPepe Lite API is a lightweight and experimental API designed to interact wit
 2. **Set up a virtual environment (optional but recommended):**
    ```bash
    python3 -m venv venv
-   source venv/bin/activate
+   source venv/bin/activate  # On Windows, use venv\Scripts\activate
    ```
 
 3. **Install dependencies:**
    ```bash
-   pip install flask requests
+   pip install flask requests python-dotenv
    ```
 
 4. **Ensure PepeCoin Core is running** with RPC enabled. Update the configuration file (`pepecoin.conf`) with:
-   ```
+   ```conf
    rpcuser=your_rpc_user
    rpcpassword=your_rpc_password
    rpcallowip=127.0.0.1
-   rpcport=8332
+   rpcport=4555
    ```
 
 ---
@@ -55,22 +59,31 @@ EasyPepe Lite API is a lightweight and experimental API designed to interact wit
 When you run the API for the first time, it will prompt you to enter your RPC credentials:
 
 ```bash
-python api.py
+python main.py
 ```
 
 You will be asked to provide:
 - **RPC Username**
 - **RPC Password**
 - **RPC Host** (default: `127.0.0.1`)
-- **RPC Port** (default: `8332`)
+- **RPC Port** (default: `4555`)
 
-These credentials are used to connect to your PepeCoin Core instance. They can also be set as environment variables:
+These credentials are used to connect to your PepeCoin Core instance. They can also be set as environment variables by creating a `.env` file:
+
+```bash
+RPC_USER=your_rpc_user
+RPC_PASSWORD=your_rpc_password
+RPC_HOST=127.0.0.1
+RPC_PORT=4555
+```
+
+You can also set these variables manually in your terminal session:
 
 ```bash
 export RPC_USER=your_rpc_user
 export RPC_PASSWORD=your_rpc_password
 export RPC_HOST=127.0.0.1
-export RPC_PORT=8332
+export RPC_PORT=33873
 ```
 
 ---
@@ -78,11 +91,12 @@ export RPC_PORT=8332
 ## Usage
 
 Run the API:
+
 ```bash
-python api.py
+python main.py
 ```
 
-The API will be available at `http://localhost:5000`. You can use tools like `curl`, Postman, or your web browser to test the endpoints.
+The API will be available at `http://localhost:4555`. You can use tools like `curl`, Postman, or your web browser to test the endpoints.
 
 ---
 
@@ -147,7 +161,7 @@ Returns a list of connected peers.
 
 ## Troubleshooting
 
-1. **Dependency Issues:** Ensure all dependencies are installed with `pip install flask requests`.
+1. **Dependency Issues:** Ensure all dependencies are installed with `pip install flask requests python-dotenv`.
 2. **Connection Errors:** Check if PepeCoin Core is running and RPC is enabled with the correct settings.
 3. **Invalid Credentials:** Double-check the RPC username and password in your configuration.
 
@@ -166,4 +180,6 @@ This project is released under the MIT License.
 ---
 
 For further questions, stay tuned for the full EasyPepe API release.
+```
 
+This is the complete and updated `README.md` file with the new port 4555. Let me know if you need any more changes!
