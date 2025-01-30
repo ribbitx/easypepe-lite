@@ -1,37 +1,58 @@
-from flask import Flask, jsonify, request
 import os
+from flask import Flask, jsonify, request
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
+
+RPC_USER = os.getenv("RPC_USER")
+RPC_PASSWORD = os.getenv("RPC_PASSWORD")
+RPC_HOST = os.getenv("RPC_HOST", "127.0.0.1") 
+RPC_PORT = os.getenv("RPC_PORT", "33873")  
+RPC_URL = f"http://{RPC_USER}:{RPC_PASSWORD}@{RPC_HOST}:{RPC_PORT}"
+
+if not RPC_USER or not RPC_PASSWORD:
+    print("RPC_USER or RPC_PASSWORD not set. Exiting.")
+    exit(1)
+
+print(f"Connecting to RPC server at {RPC_URL}")
 
 app = Flask(__name__)
 
-rpc_user = os.getenv("RPC_USER", "")
-rpc_password = os.getenv("RPC_PASSWORD", "")
-rpc_host = os.getenv("RPC_HOST", "127.0.0.1")
-rpc_port = os.getenv("RPC_PORT", "8332")
-rpc_url = f"http://{rpc_user}:{rpc_password}@{rpc_host}:{rpc_port}"
-
-def setup_rpc_info():
-    global rpc_user, rpc_password, rpc_host, rpc_port, rpc_url
-    print("Welcome to EasyPepe Lite API Setup")
-    rpc_user = input("Enter RPC username: ")
-    rpc_password = input("Enter RPC password: ")
-    rpc_host = input("Enter RPC host (default 127.0.0.1): ") or "127.0.0.1"
-    rpc_port = input("Enter RPC port (default 8332): ") or "8332"
-    rpc_url = f"http://{rpc_user}:{rpc_password}@{rpc_host}:{rpc_port}"
-
 def call_rpc(method, params=[]):
     headers = {"content-type": "application/json"}
-    payload = {"jsonrpc": "1.0", "id": "curltext", "method": method, "params": params}
-    response = requests.post(rpc_url, json=payload, headers=headers)
-    return response.json()
+    payload = {
+        "jsonrpc": "1.0",
+        "id": "curltext",
+        "method": method,
+        "params": params
+    }
+    
+    try:
+        response = requests.post(RPC_URL, json=payload, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+        
 
-@app.route("/api/getdifficulty", methods=["GET"])
-def get_difficulty():
-    return jsonify(call_rpc("getdifficulty"))
+        if "error" in data and data["error"] is not None:
+            return {"error": "RPC error occurred."}
+        
+        return {"result": data["result"]}
+    except requests.exceptions.RequestException as e:
 
-@app.route("/api/getconnectioncount", methods=["GET"])
-def get_connection_count():
-    return jsonify(call_rpc("getconnectioncount"))
+        return {"error": "Failed to communicate with the RPC server."}
+
+@app.route("/api/network/info", methods=["GET"])
+def get_network_info():
+    return jsonify(call_rpc("getnetworkinfo"))
+
+@app.route("/api/blockchain/info", methods=["GET"])
+def get_blockchain_info():
+    return jsonify(call_rpc("getblockchaininfo"))
+
+@app.route("/api/mempool/info", methods=["GET"])
+def get_mempool_info():
+    return jsonify(call_rpc("getmempoolinfo"))
 
 @app.route("/api/getblockcount", methods=["GET"])
 def get_block_count():
@@ -47,29 +68,20 @@ def get_block(block_hash):
 
 @app.route("/api/getrawtransaction/<string:txid>", methods=["GET"])
 def get_raw_transaction(txid):
-    return jsonify(call_rpc("getrawtransaction", [txid, 1]))
+    return jsonify(call_rpc("getrawtransaction", [txid, True]))
+
+@app.route("/api/tx/<string:txid>", methods=["GET"])
+def get_transaction(txid):
+    return jsonify(call_rpc("getrawtransaction", [txid, True]))
 
 @app.route("/api/getnetworkhashps", methods=["GET"])
 def get_network_hash_ps():
     return jsonify(call_rpc("getnetworkhashps"))
 
-@app.route("/api/getmoneysupply", methods=["GET"])
-def get_money_supply():
-    return jsonify(call_rpc("getmoneysupply"))
-
-@app.route("/api/getdistribution", methods=["GET"])
-def get_distribution():
-    return jsonify(call_rpc("getdistribution"))
-
-@app.route("/api/gettx/<string:txid>", methods=["GET"])
-def get_tx(txid):
-    return jsonify(call_rpc("gettx", [txid]))
-
-@app.route("/api/getnetworkpeers", methods=["GET"])
-def get_network_peers():
+@app.route("/api/peerinfo", methods=["GET"])
+def get_peer_info():
     return jsonify(call_rpc("getpeerinfo"))
 
 if __name__ == "__main__":
-    if not all([rpc_user, rpc_password]):
-        setup_rpc_info()
-    app.run(host="0.0.0.0", port=5000)
+
+    app.run(host="0.0.0.0", port=4555)
