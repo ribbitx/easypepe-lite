@@ -178,5 +178,4 @@ This project is released under the MIT License.
 
 For further questions, stay tuned for the full EasyPepe API release.
 ```
-
-This is the complete and updated `README.md` file with the new port 4555. Let me know if you need any more changes!
+main@ribbitx.com
