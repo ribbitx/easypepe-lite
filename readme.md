@@ -1,4 +1,4 @@
-# EasyPepe Lite API (Beta)
+# EasyPepe Lite API (Beta) 1.4.3
 
 EasyPepe Lite API is a lightweight and experimental API designed to interact with the PepeCoin Core blockchain. It provides endpoints for retrieving blockchain data, simplifying the development of applications that need to communicate with the PepeCoin network. This version is a demo and beta preview, with the full EasyPepe API coming soon.
 
