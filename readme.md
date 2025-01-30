@@ -1,6 +1,3 @@
-Here's the complete updated `README.md` for the EasyPepe Lite API with the correct port of 4555:
-
-```markdown
 # EasyPepe Lite API (Beta)
 
 EasyPepe Lite API is a lightweight and experimental API designed to interact with the PepeCoin Core blockchain. It provides endpoints for retrieving blockchain data, simplifying the development of applications that need to communicate with the PepeCoin network. This version is a demo and beta preview, with the full EasyPepe API coming soon.
