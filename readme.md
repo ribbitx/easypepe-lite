@@ -32,13 +32,13 @@ EasyPepe Lite API is a lightweight and experimental API designed to interact wit
 
 2. **Set up a virtual environment (optional but recommended):**
    ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows, use venv\Scripts\activate
+   python -m venv venv
+   source venv/bin/activate  # On Windows, use venv\Scripts\activate.bat
    ```
 
 3. **Install dependencies:**
    ```bash
-   pip install flask requests python-dotenv
+   pip install -r requirements.txt
    ```
 
 4. **Ensure PepeCoin Core is running** with RPC enabled. Update the configuration file (`pepecoin.conf`) with:
@@ -49,6 +49,25 @@ EasyPepe Lite API is a lightweight and experimental API designed to interact wit
    rpcport=4555
    ```
 
+## Docker Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ribbitx/easypepe-lite.git
+   cd easypepe-lite
+   ```
+2. **Change configuration**
+   ```
+   All configurations are in .env file
+   ```
+3. **Build image from source**
+   ```bash
+   docker buildx build -t easypepe-lite .
+   ```
+4. **Run**
+   ```bash
+   docker run easypepe-lite
+   ```
 ---
 
 ## First-Time Setup
@@ -151,16 +170,15 @@ Returns a list of connected peers.
 
 ## Notes
 
-- **Beta Notice:** This API is a beta version and is meant to work as a remplacment of easypepe full api only. The full EasyPepe API will include more features and enhancements.
+- **Beta Notice:** This API is a beta version and is meant to work as a replacement of easypepe full api only. The full EasyPepe API will include more features and enhancements.
 - **Security:** Do not expose your RPC credentials or this API to the public without proper security measures in place.
 
 ---
 
 ## Troubleshooting
 
-1. **Dependency Issues:** Ensure all dependencies are installed with `pip install flask requests python-dotenv`.
-2. **Connection Errors:** Check if PepeCoin Core is running and RPC is enabled with the correct settings.
-3. **Invalid Credentials:** Double-check the RPC username and password in your configuration.
+1. **Connection Errors:** Check if PepeCoin Core is running and RPC is enabled with the correct settings.
+2. **Invalid Credentials:** Double-check the RPC username and password in your configuration.
 
 ---
 
